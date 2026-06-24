@@ -18,8 +18,8 @@ import java.util.List;
 @CrossOrigin
 public class CategoriesController
 {
-    private CategoryService categoryService;
-    private ProductService productService;
+    private final CategoryService categoryService;
+    private final ProductService productService;
 
 
     @Autowired
