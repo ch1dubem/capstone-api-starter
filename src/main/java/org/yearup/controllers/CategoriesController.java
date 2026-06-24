@@ -70,7 +70,7 @@ public class CategoriesController
     }
 
 
-    @PostMapping("{id}")
+    @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category)
     {
@@ -82,7 +82,7 @@ public class CategoriesController
     }
 
 
-    @PostMapping("{id}")
+    @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id)
     {
