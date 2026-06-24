@@ -60,28 +60,37 @@ public class CategoriesController
         return productService.listByCategoryId(categoryId);
     }
 
-    // add annotation to call this method for a POST action
-    // add annotation to ensure that only an ADMIN can call this function
+    @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Category> addCategory(@RequestBody Category category)
     {
         // insert the category and return it with status 201 Created
-        return null;
+        Category saved = categoryService.create(category);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-    // add annotation to call this method for a PUT (update) action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+
+    @PostMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category updateCategory(@PathVariable int id, @RequestBody Category category)
     {
-        // update the category by id and return the updated category (200 OK)
-        return null;
+
+        if (categoryService.getById(id) == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        return categoryService.update(id, category);
     }
 
 
-    // add annotation to call this method for a DELETE action - the url path must include the categoryId
-    // add annotation to ensure that only an ADMIN can call this function
+    @PostMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteCategory(@PathVariable int id)
     {
         // delete the category by id and return status 204 No Content
-        return null;
+        if (categoryService.getById(id) == null)
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+
+        categoryService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
