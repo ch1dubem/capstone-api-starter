@@ -13,7 +13,7 @@ import org.yearup.service.UserService;
 import java.security.Principal;
 
 @RestController
-@RequestMapping("shopping_cart")
+@RequestMapping("cart")
 @CrossOrigin
 @PreAuthorize("isAuthenticated()")
 public class ShoppingCartController
@@ -38,9 +38,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
         return shoppingCartService.getByUserId(userId);
     }
 
-    // add a POST method to add a product to the cart - the url should be
-    // https://localhost:8080/cart/products/15  (15 is the productId to be added)
-    // return the updated cart with status 201 Created
+
     @PostMapping("products/{productId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal){

@@ -76,6 +76,8 @@ public class ShoppingCartService
         return getByUserId(userId);
     }
 
+
+
     @Transactional
     public ShoppingCart clearCart(int userId)
     {
