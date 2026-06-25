@@ -29,7 +29,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
 }
 
 
-    // each method in this controller requires a Principal object as a parameter
+    @GetMapping
     public ShoppingCart getCart(Principal principal)
     {
         String userName = principal.getName();
