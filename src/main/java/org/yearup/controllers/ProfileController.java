@@ -37,4 +37,11 @@ public class ProfileController
 
         return profile;
     }
+
+    @PutMapping
+    public Profile updateProfile(@RequestBody Profile profile, Principal principal)
+    {
+        User user = userService.getByUserName(principal.getName());
+        return profileService.update(user.getId(), profile);
+    }
 }
