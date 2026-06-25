@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.yearup.models.ShoppingCart;
+import org.yearup.models.ShoppingCartItem;
 import org.yearup.models.User;
 import org.yearup.service.ShoppingCartService;
 import org.yearup.service.UserService;
@@ -48,6 +49,15 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
         return shoppingCartService.addProduct(user.getId(), productId);
 
 
+    }
+
+    @PutMapping("products/{productId}")
+    public ShoppingCart updateCart(@PathVariable int productId,
+                                   @RequestBody ShoppingCartItem item,
+                                   Principal principal)
+    {
+        User user = userService.getByUserName(principal.getName());
+        return shoppingCartService.updateProduct(user.getId(), productId, item.getQuantity());
     }
 
 
