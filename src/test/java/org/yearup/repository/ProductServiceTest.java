@@ -17,6 +17,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+// Unit tests for ProductService using Mockito (no real database).
+// @Mock fakes the repository; @InjectMocks builds the real service with that fake inside.
 @ExtendWith(MockitoExtension.class)
 class ProductServiceTest
 {
@@ -26,6 +28,7 @@ class ProductServiceTest
     @InjectMocks
     private ProductService productService;
 
+    // BUG 1: with no filters, search must return BOTH products (featured and non-featured)
     @Test
     void search_NoFilters_ReturnsAllIncludingNonFeatured()
     {
@@ -41,6 +44,7 @@ class ProductServiceTest
         assertEquals(2, found.size());
     }
 
+    // the price filter still works: only products priced >= minPrice come back
     @Test
     void search_MinPriceFilter_ReturnsOnlyAboveMin()
     {
@@ -57,6 +61,7 @@ class ProductServiceTest
         assertEquals("Laptop", found.get(0).getName());
     }
 
+    // BUG 2: updating stock must actually save the new value
     @Test
     void update_ChangedStock_PersistsNewStock()
     {

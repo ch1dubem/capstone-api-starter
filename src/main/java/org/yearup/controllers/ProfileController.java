@@ -11,6 +11,7 @@ import org.yearup.service.UserService;
 
 import java.security.Principal;
 
+// REST controller for /profile. @PreAuthorize("isAuthenticated()") means you must be logged in to use it.
 @RestController
 @RequestMapping("profile")
 @CrossOrigin
@@ -18,7 +19,7 @@ import java.security.Principal;
 public class ProfileController
 {
     private final ProfileService profileService;
-    private final UserService userService;
+    private final UserService userService;   // used to turn the logged-in username into a user id
 
     public ProfileController(ProfileService profileService, UserService userService)
     {
@@ -26,9 +27,11 @@ public class ProfileController
         this.userService = userService;
     }
 
+    // GET /profile - returns the logged-in user's own profile (404 if they somehow don't have one)
     @GetMapping
     public Profile getProfile(Principal principal)
     {
+        // Principal is the logged-in user (from the JWT); look them up to get their id
         User user = userService.getByUserName(principal.getName());
         Profile profile = profileService.getByUserId(user.getId());
 
@@ -38,6 +41,7 @@ public class ProfileController
         return profile;
     }
 
+    // PUT /profile - updates the logged-in user's own profile
     @PutMapping
     public Profile updateProfile(@RequestBody Profile profile, Principal principal)
     {

@@ -23,24 +23,29 @@ public class ShoppingCartService
         this.productService = productService;
     }
 
+    // Builds the full shopping cart for a user.
+    // The database only stores bare rows (userId, productId, quantity), so we stream those rows,
+    // look up the full product for each one, and add the finished items to the cart.
     public ShoppingCart getByUserId(int userId) {
         ShoppingCart cart = new ShoppingCart();
 
         shoppingCartRepository.findByUserId(userId)
                 .stream()
-                .map(row -> {
+                .map(row -> {                                   // turn each db row into a rich ShoppingCartItem
                     ShoppingCartItem item = new ShoppingCartItem();
                     item.setProduct(productService.getById(row.getProductId()));
                     item.setQuantity(row.getQuantity());
                     return item;
                 })
-                .forEach(cart::add);
+                .forEach(cart::add);                            // add each item to the cart (keyed by product id)
 
         return cart;
 
     }
 
 
+    // Adds a product to the cart. If it isn't there yet, insert a new row with quantity 1;
+    // if it's already there, just increase the quantity (so we never get duplicate rows).
     public ShoppingCart addProduct(int userId, int productId)
     {
         CartItem existing = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
@@ -59,10 +64,12 @@ public class ShoppingCartService
             shoppingCartRepository.save(existing);
         }
 
-        return getByUserId(userId);
+        return getByUserId(userId);   // return the rebuilt cart so the caller sees the latest state
     }
 
 
+    // Sets the quantity of a product already in the cart to an exact value.
+    // If the product isn't in the cart, do nothing (safe no-op).
     public ShoppingCart updateProduct(int userId, int productId, int quantity)
     {
         CartItem existing = shoppingCartRepository.findByUserIdAndProductId(userId, productId);
@@ -78,11 +85,12 @@ public class ShoppingCartService
 
 
 
+    // Removes everything from the user's cart. @Transactional is required for a derived delete query.
     @Transactional
     public ShoppingCart clearCart(int userId)
     {
         shoppingCartRepository.deleteByUserId(userId);
-        return getByUserId(userId);
+        return getByUserId(userId);   // return the now-empty cart
     }
 
 }

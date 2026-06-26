@@ -12,6 +12,8 @@ import org.yearup.service.UserService;
 
 import java.security.Principal;
 
+// REST controller for /cart. @PreAuthorize("isAuthenticated()") secures every endpoint -
+// a cart belongs to a logged-in user, so there is no public cart.
 @RestController
 @RequestMapping("cart")
 @CrossOrigin
@@ -20,7 +22,7 @@ public class ShoppingCartController
 {
     // a shopping cart controller depends on the service layer
     private final ShoppingCartService shoppingCartService;
-    private final UserService userService;
+    private final UserService userService;   // used to turn the logged-in username into a user id
 
 @Autowired
 public ShoppingCartController(ShoppingCartService shoppingCartService,UserService userService){
@@ -29,6 +31,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
 }
 
 
+    // GET /cart - returns the logged-in user's cart (Principal -> username -> user id -> cart)
     @GetMapping
     public ShoppingCart getCart(Principal principal)
     {
@@ -39,6 +42,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
     }
 
 
+    // POST /cart/products/{productId} - add a product to the cart, returns 201 Created
     @PostMapping("products/{productId}")
     @ResponseStatus(HttpStatus.CREATED)
     public ShoppingCart addToCart(@PathVariable int productId, Principal principal){
@@ -49,6 +53,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
 
     }
 
+    // PUT /cart/products/{productId} - set a product's quantity (read from the request body)
     @PutMapping("products/{productId}")
     public ShoppingCart updateCart(@PathVariable int productId,
                                    @RequestBody ShoppingCartItem item,
@@ -61,6 +66,7 @@ public ShoppingCartController(ShoppingCartService shoppingCartService,UserServic
 
 
 
+    // DELETE /cart - empty the cart and return the now-empty cart (200 OK)
     @DeleteMapping
     public ShoppingCart clearCart(Principal principal)
     {

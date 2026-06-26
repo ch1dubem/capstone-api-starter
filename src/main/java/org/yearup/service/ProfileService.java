@@ -20,11 +20,13 @@ public class ProfileService
     }
 
 
+    // returns the profile for a user, or null if they don't have one (a profile's id is the user id)
     public Profile getByUserId(int userId)
     {
         return profileRepository.findById(userId).orElse(null);
     }
 
+    // updates a profile; we force the userId from the logged-in user so nobody can edit someone else's profile
     public Profile update(int userId, Profile profile)
     {
         profile.setUserId(userId);

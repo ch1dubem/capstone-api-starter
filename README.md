@@ -94,13 +94,17 @@ Follow these steps to get the API running within IntelliJ IDEA:
 
 ## DEMO
 
+**Database setup in MySQL Workbench (EasyShop schema and seed data):**
 
+![EasyShop database schema in MySQL Workbench](assets/demo1.png)
 
+**Storefront — browsing and filtering products on the web client:**
 
+![EasyShop storefront browsing products](assets/demo2.png)
 
+**API endpoints verified in Insomnia (categories, products, cart, and profile tests passing):**
 
-
-
+![EasyShop API tests passing in Insomnia](assets/demo3.png)
 
 ## Future Work
 

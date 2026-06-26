@@ -9,6 +9,8 @@ import org.yearup.models.Product;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+// Data-layer test: @DataJpaTest runs against an in-memory H2 database,
+// and @Sql loads the test rows before each test method.
 @DataJpaTest
 @Sql(scripts = "classpath:test-insert-data.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class ProductRepositoryTest
@@ -16,6 +18,7 @@ class ProductRepositoryTest
     @Autowired
     private ProductRepository productRepository;
 
+    // saves/loads product 1 from the test database and checks it reads back with the right price
     @Test
     public void getById_shouldReturn_theCorrectProduct()
     {
