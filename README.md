@@ -2,7 +2,7 @@
 
 ## Description of the Project
 
-EasyShop is a Java Spring Boot REST API that powers an online store. It serves a catalog of categories and products, supports filtered product search, and gives every registered user a secure shopping cart and an editable profile. Authentication is handled with JSON Web Tokens (JWT), and the API enforces role-based access so that shoppers can browse the store and manage their own cart while only admins can create, update, or delete catalog data. The API is backed by a MySQL database through Spring Data JPA and is consumed by a prebuilt EasyShop web client. This capstone also fixes two production bugs — a broken product search and an incomplete product update — each proven by automated tests across the service, web, and data layers.
+EasyShop is a Java Spring Boot REST API that powers an online store. It serves a catalog of categories and products, supports filtered product search, and gives every registered user a secure shopping cart and an editable profile. Authentication is handled with JSON Web Tokens (JWT), and the API enforces role-based access so that shoppers can browse the store and manage their own cart while only admins can create, update, or delete catalog data. The API is backed by a MySQL database through Spring Data JPA and is consumed by a prebuilt EasyShop web client. This capstone also fixes two production bugs — a broken product search and an incomplete product update each proven by automated tests across the service, web, and data layers.
 
 **Slogan:** *"Shop Smart, Shop Easy"*
 
